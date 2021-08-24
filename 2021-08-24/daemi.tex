@@ -1,0 +1,323 @@
+%vim:ft=tex:
+%
+\documentclass[a4paper,notitlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[icelandic]{babel}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{mdframed}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{import}
+\usepackage{pdfpages}
+\usepackage{transparent}
+\usepackage{xifthen}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{transparent}
+\usepackage[margin=1.5in]{geometry}
+
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./figures/}{#1.pdf_tex}
+}
+
+\fancypagestyle{firstpage}{
+    \fancyhf{}
+    \fancyhead[L]{Fléttufræði \\ 24. ágúst 2021}
+    \fancyhead[R]{Tristan Ferrua Edwardsson \\ tfe1@hi.is}
+}
+
+\title{\vspace{-1em}Problem Set 1\vspace{-2em}}
+\date{}
+\author{}
+
+\theoremstyle{plain}
+\newmdtheoremenv[innerbottommargin=\topskip]{setning}{Setning}
+\theoremstyle{definition}
+\newmdtheoremenv[innerbottommargin=\topskip]{skilgr}{Skilgreining}
+
+\newmdenv[
+  topline=false,
+  bottomline=false,
+  skipabove=\topsep,
+  skipbelow=\topsep
+]{siderules}
+
+\fancypagestyle{otherpages}{
+    \fancyhf{}
+    \fancyhead[L]{\leftmark}
+    \fancyhead[R]{\thepage}
+}
+
+\newcommand{\quotes}[1]{,,#1''}
+
+\makeatletter
+\newcommand{\leqnomode}{\tagsleft@true}
+\newcommand{\reqnomode}{\tagsleft@false}
+\makeatother
+
+\renewcommand{\labelenumi}{\alph{enumi}.}
+
+\setlength{\parindent}{0ex}
+\setlength{\parskip}{0.5em}
+
+\pagestyle{otherpages}
+
+\DeclareMathOperator*{\adj}{adj}
+\DeclareMathOperator*{\nul}{Null}
+\DeclareMathOperator*{\col}{Col}
+\newcommand{\detmat}[1]{\left|\begin{matrix} #1 \end{matrix}\right|}
+\newcommand{\vect}[1]{\left[\begin{array}{r} #1 \end{array}\right]}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{firstpage}
+
+\section*{Dæmi 1}
+\paragraph{Lýsing:} How many of the subsets of the set $[2n] = \{1,2,3,\dots,2n\}$ contain at least one odd number?
+
+\paragraph{Lausn:}
+Fjöldi hlutmengja möguleg eru $2^{|[2n]|} = 2^{2n} = 4^n$. Hlutmengi sem inniheldur enga oddatölu er hlutmengi í $S = \{2,4,6,\dots,2n\}$. Fjöldi þeirra er $2^{|S|} = 2^n$.
+
+Þá er fjöldi þeirra sem inniheldur amk eina oddatölu $4^n - 2^n$
+
+\section*{Dæmi 2}
+\paragraph{Lýsing:} How many orderings are there for a deck of $52$ cards if all the cards of the same suit are together?
+
+\paragraph{Lausn:}
+Fjöldi mögulegra umraðana á litum eru $4!$.
+Innan hvers litar eru $13!$ leiðir á að raða spilunum. 
+Þá er fjöldi umraðana $4!\cdot 13!$
+
+\section*{Dæmi 3}
+\paragraph{Lýsing:} How many ways can the letters in the word \texttt{MISSISSIPPI} be arranged?
+
+\paragraph{Lausn:}
+Fjöldi leiða til að raða $11$ stöfum eru $11!$. Hinsvegar er okkur sama t.d. hvert essana kemur fyrst.
+Við höfum $1$ \texttt{M}, $2$ \texttt{P}, $4$ \texttt{S} og $4$ \texttt{I}. Þá höfum við fjölda umraðana
+\begin{equation*}
+    \frac{11!}{2!4!4!}
+\end{equation*}
+
+\section*{Dæmi 4}
+\paragraph{Lýsing:} A spider has one sock and one shoe for each of its eight legs. In how many different orders can the spider put on its socks and shoes, assuming that, on each leg, the sock must be put on before the shoe?
+
+\paragraph{Lausn:}
+Táknum hvern fót með staf úr stafrófinu og fáum strenginn
+\begin{center}
+    \texttt{AABBCCDDEEFFGGHH}
+\end{center}
+Fyrsti stafurinn af hverri tegund táknar að setja sokkinn á hvern fót en sá seinni táknar að setja skóinn. Eins og í dæmi $3$ fáum við að fjöldi umraðana er
+\begin{equation*}
+    \frac{16!}{(2!)^{8}}
+\end{equation*}
+
+\newpage
+
+\section*{Dæmi 5}
+\paragraph{Lýsing:} In how many ways can you place $8$ rooks on a chessboard so that none can take another?
+
+\paragraph{Lausn:}
+Við förum eftir dálkum skákborðsins. Í fyrsta dálkinum eru $8$ mögulegir reitir til að setja hrók. Sá hrókur útilokar eina röð fyrir restina. Þá fyrir næsta eru $7$ möguleikar o.s.frv.
+
+Þá sjáum við að umraðanir eru $8!$
+
+\section*{Dæmi 6}
+\paragraph{Lýsing:} How many length $n$ strings are there with two $c$'s and the remaining letters either $a$ or $b$?
+
+\paragraph{Lausn:}
+Fjöldi leiða til að setja $c$-in eru $\binom{n}{2}$. Fjöldi leiða til að mynda streng úr $\{a,b\}$ af lengd $n-2$ er $2^{n-2}$.
+
+Þá höfum við fjölda umraðana
+\begin{equation*}
+    \binom{n}{2} 2^{n-2}
+\end{equation*}
+
+\section*{Dæmi 7}
+\paragraph{Lýsing:} In how many different ways can we seat $12$ people at a round table, if we only care about the relative ordering (who is next to whom)? What if a person $A$ refuses to sit next to a person $B$?
+
+\paragraph{Lausn:}
+Fjöldi leiða til að sitja mannskapinn eru $12!$. Þar sem okkur varðar aðeins hver situr við hliðina á 
+hverjum þá væri hægt að láta alla færa sig eitt sæti til hægri og fengið samsvarandi röðun. 
+Þetta má gera $11$ sinnum áður en við fáum sömu röðun og við byrjuðum með. Ef við teljum að gera ekkert með fáum við $12$ samsvarandi umraðanir.
+ Þá er fjöldi leiða
+\begin{equation*}
+    \frac{12!}{12} = 11!
+\end{equation*}
+
+Fjöldi leiða til að setja $A$ og $B$ hlið við hlið eru $2\cdot 10!$ ($2$ leiðir til að raða $A$ og $B$ og $10!$ til að setja restina). Fjöldi leiða þar sem $A$ og $B$ eru þá ekki hlið við hlið eru
+\begin{equation*}
+    \frac{12!-2\cdot 10!}{12}
+\end{equation*}
+
+\newpage
+
+\section*{Dæmi 8}
+\paragraph{Lýsing:}
+A poker hand is $5$ cards from a standard deck of $52$ cards. How many of the following poker hands are there?
+\begin{enumerate}
+    \item two pairs (that are not four of a kind, and not part of a full house)
+    \item full house (i.e., a pair and a triple)
+    \item flush (i.e., five cards in the same suit)
+\end{enumerate}
+
+\paragraph{Lausn:}
+\begin{enumerate}
+    \item Byrjum á að velja hver $2$ af $13$ spilunum við ætlum að nota í pörin. Það gefur $\binom{13}{2}$ möguleika.
+
+        Við höfum $4$ liti til að velja um og fyrir hvert parið veljum við $2$ af þeim og fáum $\binom{4}{2}\binom{4}{2}$ möguleika til þess.
+
+        Síðan þarf að velja síðasta spilið. Við megum ekki velja spil sem er núþegar hluti af pari og það vantar $4$ spil í stokkinn. Þá fáum við $52-8$ möguleika á síðasta spilinu.
+
+        Þá er heildarfjöldi möguleika
+
+        \begin{equation*}
+            \binom{13}{2}\binom{4}{2}\binom{4}{2}(52-8)
+        \end{equation*}
+
+    \item Fyrir þrennuna veljum við $3$ liti og fyrir parið veljum við $2$.
+
+        Við þurfum að velja $2$ mismunandi spil af þeim $13$ mögulegum til að mynda höndina svo við höfum $13\cdot 12$ leiðir til þess (röð skiptir máli því annað er fyrir þrennuna og hitt fyrir parið)
+
+        Þá er fjöldi leiða
+
+        \begin{equation*}
+            13\cdot 12\cdot \binom{4}{3}\binom{4}{2}
+        \end{equation*}
+
+    \item Höfum $4$ liti til að velja um og þurfum að velja $5$ af $13$ spilum í þeim lit. Þá eru möguleikar
+        \begin{equation*}
+            4\cdot \binom{13}{5}
+        \end{equation*}
+\end{enumerate}
+
+\newpage
+
+\section*{Dæmi 9}
+\paragraph{Lýsing:}
+How many subsets of the set $\{1,2,\dots,15\}$ contain at least
+\begin{enumerate}
+    \item one odd number?
+    \item three even numbers?
+\end{enumerate}
+
+\paragraph{Lausn:}
+\begin{enumerate}
+    \item Heildarfjöldi hlutmengja eru $2^{15}$. Drögum frá þau sem innihalda aðeins sléttar tölur (sem eru $7$ talsins). Fjöldi þeirra hlutmengja eru $2^7$.
+
+        Þá er heildarfjöldi hlutmengja sem innihalda a.m.k. eina oddatölu
+        \begin{equation*}
+            2^{15}-2^7
+        \end{equation*}
+
+    \item Heildarfjöldi hlutmengja eru $2^{15}$.
+
+        Fjöldi þeirra sem innihalda nákvæmlega enga oddatölu eru $2^8 \binom{7}{0}$
+
+        Fjöldi þeirra sem innihalda nákvæmlega eina oddatölu eru $2^8 \binom{7}{1}$
+
+        Fjöldi þeirra sem innihalda nákvæmlega tvær oddatölur eru $2^8 \binom{7}{2}$
+
+        Þá er heildarfjöldi hlutmengja sem innihalda a.m.k. þrjár oddatölur
+        \begin{equation*}
+            2^{15} - 2^{8}\left( \binom{7}{0} + \binom{7}{1} + \binom{7}{2} \right)
+        \end{equation*}
+\end{enumerate}
+
+
+\section*{Dæmi 10}
+\paragraph{Lýsing:}
+In how many ways can one select two, not necessarily distinct, subsets of $[n]=\{1,2,\dots,n\}$ such that their union is $S$? (The order of the selection does not matter)
+
+\paragraph{Lausn:}
+\begin{equation*}
+    \frac{1}{2}(3^n-1)+1
+\end{equation*}
+
+\newpage
+
+\section*{Dæmi 11}
+\paragraph{Lýsing:}
+Recall that $\binom{n}{k}$ is the number of $k$ element subsets of an $n$ element set. Prove combinatorially that
+\begin{enumerate}
+    \item $\displaystyle \binom{n}{k} = \binom{n}{n-k}$
+    \item $\displaystyle \binom{n}{k} = \binom{n-1}{k}+\binom{n-1}{k-1}$
+\end{enumerate}
+
+\paragraph{Lausn:}
+\begin{enumerate}
+    \item Vinstra megin veljum við $k$ stök af $n$ en hægra megin veljum við $n-(n-k) = k$ stök til að skilja eftir.
+
+    \item Látum $S$ vera mengi með $|S| = n$. Með vinstri hliðinni veljum við hlutmengi af stærð $k$ úr $S$. Veljum nú eitt $a\in S$ og látum $S_a = S\setminus\{a\}$.
+
+        Við sjáum augljóslega að $|S_a| = n-1$. Þegar við veljum $k$ stök úr $S_a$ höfum við valið öll hlutmengi $S$ af stærð $k$ sem innihalda ekki $a$. Fjöldi þeirra er 
+        \begin{equation*}
+            \binom{|S_a|}{k} = \binom{n-1}{k}
+        \end{equation*}
+
+        Til að fá hlutmengi af stærð $k$ sem inniheldur $a$ má velja $k-1$ stak úr $S_a$ og bæta $a$ í það. Fjöldi leiða til að velja þessi mengi er
+        \begin{equation*}
+            \binom{|S_a|}{k-1} = \binom{n-1}{k-1}
+        \end{equation*}
+
+        Þá sjáum við að allir möguleikar á að velja hlutmengi af stærð $k$ úr $S$ fást með því að fyrst velja þau hlutmengi af stærð $k$ sem innihalda ekki $a$ og síðan velja hlutmengi af stærð $k-1$ sem innihalda ekki $a$ og bæta $a$ í þau eða
+        \begin{equation*}
+            \binom{n-1}{k} + \binom{n-1}{k-1}
+        \end{equation*}
+\end{enumerate}
+
+\newpage
+
+\section*{Dæmi 12}
+\paragraph{Lýsing:}
+Numbers of the form $\binom{n}{2}$ are called \emph{triangular numbers}. What can you say about the sum of two consecutive triangular numbers? Also, give a combinatorial explanation.
+
+\paragraph{Lausn:}
+
+Við höfum
+\begin{equation*}
+    \binom{n}{2} + \binom{n+1}{2} = \frac{n(n-1)}{2} + \frac{n(n+1)}{2} = n^2
+\end{equation*}
+
+Módel fyrir $n^2$ væri að velja par $(a,b)$ þar sem $a,b\in[n]$.
+
+Módel fyrir $\binom{n}{2}$ væri að velja par $(a,b)$ með $a<b$ og $a,b\in[n]$ þ.e. óröðuð pör úr mengi af stærð $n$.
+
+Módel fyrir $\binom{n+1}{2}$ væri að velja par $(a,b)\in[n+1]^2$ með $a>b$ sem jafngildir fjölda para $(a-1, b)\in[n+1]^2$ með $a > b$ sem jafngildir fjöda $(a,b)\in[n]^2$ með $a \geq b$.
+
+Þá sjáum við að $\binom{n}{2}+\binom{n+1}{2}$ gefur fjölda leiða til að velja par $(a,b)\in[n]^2$ sem er jafnt $n^2$
+
+\section*{Dæmi 13}
+\paragraph{Lýsing:}
+Recall the binomial theorem $\displaystyle (1+x)^n = \sum_{k=0}^n\binom{n}{k}x^k$. Use this to prove that
+\begin{enumerate}
+    \item $\displaystyle \sum_{k=0}^n \binom{n}{k}2^k = 3^n$
+    \item $\displaystyle \sum_{k=0}^n k \binom{n}{k} = n2^{n-1}$
+    \item $\displaystyle \sum_{k=0}^n \binom{n}{k}^2 = \binom{2n}{n}$
+\end{enumerate}
+
+\paragraph{Lausn:}
+\begin{enumerate}
+    \item Lát $x=2$. Þá er
+        \begin{equation*}
+            \sum_{k=0}^n \binom{n}{k}2^k = 3^n
+        \end{equation*}
+
+        Módel fyrir $3^n$ er að mynda streng af lengd $n$ úr $\{a,b,c\}$. 
+
+        Veljum $k$ staði fyrir $b$ og $c$ og látum restina vera $a$. Fjöldinn til að velja þá staði eru $\binom{n}{k}$. Leiðir til að raða $b$ og $c$ innvortis eru $2^k$.
+
+        Þá sjáum við að fjöldi leiða til að mynda streng af lengd $n$ úr $\{a,b,c\}$ eru
+        \begin{equation*}
+            \sum_{k=0}^n \binom{n}{k}2^k = 3^n
+        \end{equation*}
+
+\end{enumerate}
+
+\end{document}
