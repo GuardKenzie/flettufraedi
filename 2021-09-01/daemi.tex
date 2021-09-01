@@ -1,0 +1,175 @@
+%vim:ft=tex:
+%
+\documentclass[a4paper,notitlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[icelandic]{babel}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{mdframed}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{import}
+\usepackage{pdfpages}
+\usepackage{transparent}
+\usepackage{xifthen}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{transparent}
+\usepackage[margin=1.5in]{geometry}
+
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./figures/}{#1.pdf_tex}
+}
+
+\fancypagestyle{firstpage}{
+    \fancyhf{}
+    \fancyhead[L]{Fléttufræði \\ 1. september 2021}
+    \fancyhead[R]{Tristan Ferrua Edwardsson \\ tfe1@hi.is}
+}
+
+\title{Dæmatími}
+\date{}
+\author{}
+
+\theoremstyle{plain}
+\newmdtheoremenv[innerbottommargin=\topskip]{setning}{Setning}
+\theoremstyle{definition}
+\newmdtheoremenv[innerbottommargin=\topskip]{skilgr}{Skilgreining}
+
+\newmdenv[
+  topline=false,
+  bottomline=false,
+  skipabove=\topsep,
+  skipbelow=\topsep
+]{siderules}
+
+\fancypagestyle{otherpages}{
+    \fancyhf{}
+    \fancyhead[L]{\leftmark}
+    \fancyhead[R]{\thepage}
+}
+
+\newcommand{\quotes}[1]{,,#1''}
+
+\makeatletter
+\newcommand{\leqnomode}{\tagsleft@true}
+\newcommand{\reqnomode}{\tagsleft@false}
+\makeatother
+
+\renewcommand{\labelenumi}{\alph{enumi}.}
+
+\setlength{\parindent}{0ex}
+
+\pagestyle{otherpages}
+
+\DeclareMathOperator*{\adj}{adj}
+\DeclareMathOperator*{\des}{des}
+\DeclareMathOperator*{\nul}{Null}
+\DeclareMathOperator*{\col}{Col}
+\newcommand{\detmat}[1]{\left|\begin{matrix} #1 \end{matrix}\right|}
+\newcommand{\vect}[1]{\left[\begin{array}{r} #1 \end{array}\right]}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{firstpage}
+
+\section*{Dæmi 2}
+\paragraph{Lýsing:}
+Let $f_k(n)$ be the number of partitions of $n$ into $k$ distinct parts. Give a combinatorial proof that
+\begin{equation*}
+    f_k\left(n + \binom{k}{2}\right) = p_k(n)
+\end{equation*}
+
+\paragraph{Lausn:}
+\begin{enumerate}
+    \item We have
+        \begin{equation*}
+            P(x) = \prod_{j\geq 1} \frac{1}{1-x^j} = \prod_{j \geq 1} (1+x^j + x^{2j} + x^{3j}+ \cdots)
+        \end{equation*}
+
+        Here, $j$ is kind of the size of the part and
+        \begin{equation*}
+            Q(x) = \prod_{j\geq 2} \frac{1}{1-x^j}
+        \end{equation*}
+
+        But then
+        \begin{equation*}
+            P(x) = \frac{1}{1-x}Q(x) \quad \text{or}\quad Q(x) = (1-x)P(x)
+        \end{equation*}
+
+    \item From $Q(x) = (1-x)P(x)$ we have
+        \begin{align*}
+            \sum_{n \geq 0} q(n)x^n &= (1-x)\sum_{n \geq 0}p(n)x^n \\
+            &= \sum_{n \geq 0}p(n)x^n - x \sum_{n \geq 0}p(n)x^n
+        \end{align*}
+
+        However we have
+        \begin{equation*}
+            x\sum_{n\geq 0}p(n)x^n = \sum_{n\geq 0}p(n)x^{n+1} = \sum_{n\geq 1} p(n-1)x^n
+        \end{equation*}
+        so we get
+        \begin{equation*}
+            \sum_{n \geq 0}p(n)x^n - x \sum_{n \geq 0}p(n)x^n = 1 + \sum_{n \geq 1}(p(n)-p(n-1))x^n
+        \end{equation*}
+        We can now equate the coefficients, that is
+        \begin{equation*}
+            q(n) = p(n) - p(n-1),\quad n\geq 1
+        \end{equation*}
+
+        \begin{center}
+            \rule{25em}{0.5pt}
+        \end{center}
+
+        For the combinatorial proof, we first rewrite our expression as
+        \begin{equation*}
+            q(n) + p(n-1) = p(n)
+        \end{equation*}
+        
+        We notice that $\{(\lambda_1,\dots,\lambda_k) \vdash n \}$ is the disjoint union
+        \begin{align*}
+            \text{(i)}\quad\{(\lambda_1,\dots,\lambda_k) \vdash n \mid \lambda_k \neq 1\} \cup \{(\lambda_1,\dots,\lambda_k)\vdash n \mid \lambda_k = 1\}\quad\text{(ii)}
+        \end{align*}
+
+        The cardinality of (1) is $q(n)$ by definition and the cardinality of (ii) is $p(n-1)$ by removing $\lambda_k = 1$.
+
+\end{enumerate}
+
+
+\section*{Dæmi 5}
+\paragraph{Lýsing} Let $S_n$ be the set of permutations of $[n]$. A \emph{descent} of $\pi = a_1a_2\dots a_n \in S_n$ is an index $i$ such that $a_i > a_{i+1}$.
+\paragraph{Lausn:}
+\begin{enumerate}
+    \item We have
+        \begin{equation*}
+            f(n) = f(n-1) - 1 + f(n-1) + n - 1 = n + 2(f(n-1) - 1)
+        \end{equation*}
+
+    \item We have
+        \leqnomode
+        \begin{align*}
+            \sum_{n\geq 1}f(n)x^n &= \sum_{n\geq 1} (2f(n-1)+n - 2)x^n \\
+            \tag*{so} F(x) - 1 &=  2\sum_{n\geq 1} f(n-1)x^n + \sum_{n\geq 1}nx^n - 2\sum_{n\geq 1}x^n \\
+            &= 2xF(x) + x \sum_{n\geq 1} nx^{n-1} - \frac{2x}{1-x}
+        \end{align*}
+
+        Notice that
+        \begin{equation*}
+            x\sum_{n\geq 1}n x ^{n-1} = \frac{d}{dx}\left( \sum_{n\geq 0}x^n \right) = \frac{d}{dx} \left( \frac{1}{1-x} \right) = \frac{1}{(1-x)^2}
+        \end{equation*}
+        Then we have
+        \leqnomode
+        \begin{align*}
+            F(x)-1 = 2xF(x) + \frac{1}{(1-x)^2} - \frac{2x}{1-x} \\
+            \tag*{so} F(x) &= \frac{1-3x-3x^2}{(1-x)^2(1-2x)}
+        \end{align*}
+
+    \item For the closed formula we could use partial-fraction decomposition.
+\end{enumerate}
+
+\end{document}
